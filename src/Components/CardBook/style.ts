@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Card = styled.div`
     width: 194px;
-    margin: 20px 0;
+    margin: 20px auto;
     height: 300px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 8px;
@@ -14,6 +14,7 @@ export const Card = styled.div`
 `;
 
 export const CardButton = styled.button`
+    width: 100%;
     border: 0px;
     background-color: rgb(255, 204, 0);
     padding: 8px 5px;

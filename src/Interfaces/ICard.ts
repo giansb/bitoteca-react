@@ -1,7 +1,8 @@
 
 export interface ICard {
-    name:string
+    id: number,
+    titulo:string
     image_url:string
     price:string
-    stock:boolean
+    Qtd_estoque:number
 }

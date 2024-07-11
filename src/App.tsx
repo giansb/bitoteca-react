@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { PageHome } from "./Pages/Home"
+import { PageBook } from "./Pages/Book"
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PageHome/>}/>
+          <Route path="/livro/:id" element={<PageBook />}/>
         </Routes>
       </BrowserRouter>
     </>

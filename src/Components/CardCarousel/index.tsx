@@ -4,6 +4,9 @@ import { livrosTeste } from "../data_test";
 
 import { CardBook } from "../CardBook";
 import { LimitSection } from "../../Styles/style";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { ILivro } from "../../Interfaces/ILivro";
 
 
 export const CardCarousel = () => {
@@ -28,6 +31,18 @@ export const CardCarousel = () => {
         }
     };
 
+    const [livros, setLivros] = useState<ILivro[]>([]);
+
+    useEffect(() =>{
+        axios.get("https://localhost:7117/Livro/")
+        .then(response => {
+            setLivros(response.data);
+          })
+          .catch(error => {
+            console.error('Houve um erro ao buscar os livros!', error);
+          });
+    },[])
+
 
     return(
         <ContainerCards>
@@ -39,8 +54,8 @@ export const CardCarousel = () => {
             <CardSection>
                 <Carousel responsive={responsive}>
                     {
-                        livrosTeste.map((livro, index) => {
-                            return <CardBook key={index} name={livro.name} price={livro.price} image_url={livro.image_url} stock={livro.stock}/>
+                        livros.map((livro, index) => {
+                            return <CardBook key={index} id={livro.id} titulo={livro.titulo} price={livro.preco} image_url={livro.imagem_url} Qtd_estoque={livro.qtd_estoque}/>
                         })
                     }
                 </Carousel>
