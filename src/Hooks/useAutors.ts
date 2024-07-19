@@ -14,3 +14,17 @@ export function useAutors() {
 
     return[autors]
 }
+
+
+export function UseAutorById(id: number) {
+    const[autor, setAutor] = useState<IAutor>();
+
+    useEffect(() => {
+        axios.get(`https://localhost:7117/Autor/${id}`)
+        .then(response => {
+            setAutor(response.data)
+        })
+    },[])
+
+    return[autor]
+}

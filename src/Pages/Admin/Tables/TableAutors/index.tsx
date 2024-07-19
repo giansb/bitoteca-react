@@ -70,7 +70,7 @@ export default function TableAutor() {
         />
       
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 325 }}>
+            <TableContainer sx={{ maxHeight: 450 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>

@@ -13,6 +13,8 @@ export const PageBook = () => {
 
     const [livro] = useBookById(Number(id));
 
+    const sinopsia = livro?.sinopsia;
+
     //const navigate = useNavigate();
 
     return(
@@ -40,7 +42,12 @@ export const PageBook = () => {
                 <BookOtherInfo>
                     <h2>Informações do produto</h2>
 
-                    <p>{livro?.sinopsia}</p>
+                    {sinopsia?.split('\n').map((line, index) => (
+                        <div>
+                            <br/>
+                            <p key={index}>{line}</p>
+                        </div>
+                    ))}
 
                     <h2>Detalhes do produto</h2>
 

@@ -8,13 +8,14 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import {SearchBar, TableSectionContainer, TableSectionTitle } from './style';
-
 import MenuSettings from '../Menu';
 import { Button } from '@mui/material';
 import { UseBooks } from '../../../../Hooks/useBook';
+import { useAutors } from '../../../../Hooks/useAutors';
+
 
 interface Column {
-    id: 'title' | 'url_image';
+    id: 'title' | 'isbn' | 'preco' | 'autor' | 'data_cadastro' | 'qtd_estoque' | 'qtd_vendidos';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -22,21 +23,38 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-    { id: 'title', label: 'Titulo', minWidth: 170 },
-    { id: 'url_image', label: 'Url da Imagem', minWidth: 100 }
+    { id: 'title', label: 'Titulo', minWidth: 150 },
+    { id: 'isbn', label: 'Isbn', minWidth: 100 },
+    { id: 'preco', label: 'Valor', minWidth: 100 },
+    { id: 'autor', label: 'Autor', minWidth: 100 },
+    { id: 'data_cadastro', label: 'Cadastro', minWidth: 100 },
+    { id: 'qtd_estoque', label: 'Estoque/Quantidade', minWidth: 100 },
+    { id: 'qtd_vendidos', label: 'Vendidos', minWidth: 100 },
 
 ];
 
 interface DataBook {
     id:number;
     title: string;
+    isbn:string;
+    preco:string;
+    autor:string;
+    data_cadastro:string;
+    qtd_estoque:number;
+    qtd_vendidos:number
 }
 
 function createData(
     id: number,
     title: string,
+    isbn:string,
+    preco:string,
+    autor:string,
+    data_cadastro:string,
+    qtd_estoque:number,
+    qtd_vendidos:number
 ): DataBook {
-    return {id, title };
+    return {id, title, isbn, preco, autor, data_cadastro, qtd_estoque, qtd_vendidos};
 }
 
 
@@ -47,8 +65,20 @@ export default function TableBooks() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [books] = UseBooks();
+    const [autores, setAutores] = useAutors();
 
-    const rows = books.map((book) => createData(book.id, book.titulo));
+    
+
+    const rows = books.map((book) => {
+
+        const autor = autores.find((autor) => autor.id === book.id_autor);
+
+
+        const autorNome = autor ? autor.nome.toString() : 'Autor desconhecido';
+
+        
+        return createData(book.id, book.titulo, book.isbn, book.preco, autorNome, book.data_cadastro, book.qtd_estoque, book.qtd_vendidos)
+    });
 
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -62,7 +92,7 @@ export default function TableBooks() {
 
     return (
         <TableSectionContainer>
-            <TableSectionTitle>Autores</TableSectionTitle>
+            <TableSectionTitle>Livros</TableSectionTitle>
         
         <SearchBar
           label="Pesquisar por Autores"
@@ -71,7 +101,7 @@ export default function TableBooks() {
         />
       
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 325 }}>
+            <TableContainer sx={{ maxHeight: 450 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -85,7 +115,7 @@ export default function TableBooks() {
                                 </TableCell>
                                 
                             ))}
-                            <TableCell><Button variant="contained" sx={{width:"150px"}}>Novo Autor</Button></TableCell>
+                            <TableCell><Button variant="contained" sx={{width:"150px"}}>Novo Livro</Button></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
