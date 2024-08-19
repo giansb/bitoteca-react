@@ -8,13 +8,13 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import {SearchBar, TableSectionContainer, TableSectionTitle } from './style';
-import { useAutors } from '../../../../Hooks/useAutors';
+
 import MenuSettings from '../Menu';
 import { Button } from '@mui/material';
-import ModalAutor from './Modal/ModalAutor';
+import { UseBooks } from '../../../../Hooks/useBook';
 
 interface Column {
-    id: 'name' | 'url_image';
+    id: 'title' | 'url_image';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -22,38 +22,29 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-    { id: 'name', label: 'Nome', minWidth: 170 },
+    { id: 'title', label: 'Titulo', minWidth: 170 },
     { id: 'url_image', label: 'Url da Imagem', minWidth: 100 }
 
 ];
 
-interface Data {
-    name: string;
-    url_image: string;
+interface DataBook {
+    id:number;
+    title: string;
 }
 
 function createData(
-    name: string,
-    url_image: string,
-): Data {
-    return { name, url_image };
+    id: number,
+    title: string,
+): DataBook {
+    return {id, title };
 }
 
-
-
-
-
-export default function TableAutor() {
+export const TablePublishers = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [autors] = useAutors();
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => {
-        setOpen(true)
-        console.log(open)
-    };
+    const [books] = UseBooks();
 
-    const rows = autors.map((autor) => createData(autor.nome, autor.imagem_url));
+    const rows = books.map((book) => createData(book.id, book.titulo));
 
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -67,7 +58,7 @@ export default function TableAutor() {
 
     return (
         <TableSectionContainer>
-            <TableSectionTitle>Autores</TableSectionTitle>
+            <TableSectionTitle>Editoras</TableSectionTitle>
         
         <SearchBar
           label="Pesquisar por Autores"
@@ -90,8 +81,7 @@ export default function TableAutor() {
                                 </TableCell>
                                 
                             ))}
-                            <TableCell><Button variant="contained" sx={{width:"150px"}} onClick={() => handleOpen()}>Novo Autor</Button></TableCell>
-                            <ModalAutor id={1} modalOpen={open} onClose={() => setOpen(false)}/>
+                            <TableCell><Button variant="contained" sx={{width:"150px"}}>Novo Autor</Button></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -99,9 +89,9 @@ export default function TableAutor() {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                                         {columns.map((column) => {
-                                            const value = row[column.id as keyof Data];
+                                            const value = row[column.id as keyof DataBook];
                                             return (
                                                 <TableCell key={column.id} align={column.align}>
                                                     {column.format && typeof value === 'number'

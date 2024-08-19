@@ -9,8 +9,9 @@ export default function MenuSettings() {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const edit = () => {
     setAnchorEl(null);
+
   };
 
   return (
@@ -28,13 +29,13 @@ export default function MenuSettings() {
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={edit}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>Editar</MenuItem>
-        <MenuItem onClick={handleClose}>Excluir</MenuItem>
+        <MenuItem onClick={edit}>Editar</MenuItem>
+        <MenuItem onClick={edit}>Excluir</MenuItem>
       </Menu>
     </div>
   );

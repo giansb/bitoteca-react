@@ -1,5 +1,5 @@
 export interface IAutor {
-    id:Number,
+    id:number,
     nome: string,
     biografia:string,
     imagem_url:string

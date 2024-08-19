@@ -12,6 +12,7 @@ import {SearchBar, TableSectionContainer, TableSectionTitle } from './style';
 import MenuSettings from '../Menu';
 import { Button } from '@mui/material';
 import { UseBooks } from '../../../../Hooks/useBook';
+import ModalNewBook from './ModalNewBook';
 
 interface Column {
     id: 'title' | 'url_image';
@@ -47,6 +48,8 @@ export default function TableBooks() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [books] = UseBooks();
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
 
     const rows = books.map((book) => createData(book.id, book.titulo));
 
@@ -62,7 +65,7 @@ export default function TableBooks() {
 
     return (
         <TableSectionContainer>
-            <TableSectionTitle>Autores</TableSectionTitle>
+            <TableSectionTitle>Livros</TableSectionTitle>
         
         <SearchBar
           label="Pesquisar por Autores"
@@ -85,7 +88,8 @@ export default function TableBooks() {
                                 </TableCell>
                                 
                             ))}
-                            <TableCell><Button variant="contained" sx={{width:"150px"}}>Novo Autor</Button></TableCell>
+                            <TableCell><Button variant="contained" sx={{width:"150px"}} onAbort={handleOpen}>Novo Autor</Button></TableCell>
+                            
                         </TableRow>
                     </TableHead>
                     <TableBody>
